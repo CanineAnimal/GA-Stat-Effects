@@ -18,9 +18,11 @@ This Python script also functions entirely offline, and converts the CSV file ge
 
 ## Dependencies
 Python, 3.>8
+
 R, ~4.3
 ### In Python
 requests, ~2.28
+
 datetime, ~5.0
 
 ### In R
