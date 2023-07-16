@@ -24,7 +24,7 @@ while item < len(data):
 		# Assume no data exists if both max and min are zero
 		pass
 	else:
-		if eval(data[item + 1]) > 30 and eval(data[item + 5]) >= 0 or eval(data[item + 1]) < -30 and eval(data[item + 4]) <= 0:
+		if eval(data[item + 1]) > 30 and eval(data[item + 5]) >= -0.5 or eval(data[item + 1]) < -30 and eval(data[item + 4]) <= 0.5:
 			# Highlight stat name if correlation is exceptionally strong
 			text += "[color=green][b]" + data[item] + "[/b][/color]\n"
 		else:
