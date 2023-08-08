@@ -34,7 +34,7 @@ text = '\n'
 
 # Loop through stats on nation
 for nation in nats:
-	response = requests.get('https://www.nationstates.net/cgi-bin/api.cgi?nation=' + nation + ';q=answered+census;scale=0+1+2+4+5+6+7+8+9+10+11+12+13+14+15+16+17+18+19+20+21+22+23+24+25+26+27+28+29+30+31+32+33+34+35+36+37+38+39+40+41+42+43+44+45+46+47+48+49+50+51+52+53+54+55+56+57+58+59+60+61+62+63+64+67+68+69+70+71+72+73+74+75+77+78+79+85+87+88;mode=history;from=' + str(timestamp - 172800) + '&to=' + str(timestamp), headers={'User-Agent':'WA stat effects analysis script created by the Ice States and used by ' + user_name})
+	response = requests.get('https://www.nationstates.net/cgi-bin/api.cgi?nation=' + nation + ';q=answered+happenings+census;scale=0+1+2+4+5+6+7+8+9+10+11+12+13+14+15+16+17+18+19+20+21+22+23+24+25+26+27+28+29+30+31+32+33+34+35+36+37+38+39+40+41+42+43+44+45+46+47+48+49+50+51+52+53+54+55+56+57+58+59+60+61+62+63+64+67+68+69+70+71+72+73+74+75+77+78+79+85+87+88;mode=history;from=' + str(timestamp - 172800) + '&to=' + str(timestamp), headers={'User-Agent':'WA stat effects analysis script created by the Ice States and used by ' + user_name})
 	if response.status_code == 404 or len(nation) < 1:
 		print ('Nation ' + nation + ' does not exist; stats unreachable.')
 	else:
@@ -47,10 +47,26 @@ for nation in nats:
 				text += '\n'
 				print ('Processed stats of ' + nation)
 			else:
-				# Ignore nations which have answered an issue after the daily dump in case they did so before 
-				print (nation + ' has answered an issue; skipping')
+				# If nation has answered an issue after the daily dump, check if within happenings; it's done by scanning happenings as I am not going to download an extra daily dump per resolution for the sake of a small amount of data points
+				print('Checking issues answered by ' + nation + '...')
+				issues_found = 0;
+				for answer in stats.findall('HAPPENINGS/EVENT'):
+					if answer.find('TEXT').text.find('Following new legislation in ') == 0 and int(answer.find('TIMESTAMP').text) >= timestamp:
+						issues_found += 1
+						print(str(issues_found) + ' of ' + stats.find('ISSUES_ANSWERED').text + ' found')
+
+				
+				if issues_found == int(stats.find('ISSUES_ANSWERED').text):
+					# If all issues answered are demonstrably after timeframe of resolution, scan stats anyway
+					for stat in stats.findall('CENSUS/SCALE'):
+						text += ',' + stat.findall('POINT/SCORE')[0].text + ',' + stat.findall('POINT/SCORE')[1].text
+					text += '\n'
+					print ('Processed stats of ' + nation)
+				else:
+					# Otherwise ignore the nation in case the issue answering was before stat changes are registered
+					print ('Skipping ' + nation + ' due to answered issues')
 		except:
-			print ('Failed to process stats of ' + nation)
+			print('Unable to process ' + nation + '\'s stats')
 	
 	# Rate limit requests to API
 	if time.time_ns() < original_time + 620000000:

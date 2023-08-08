@@ -1,6 +1,6 @@
 library (moments);
 readline(prompt="Enter full path to resolution effect data: ") -> path
-res <- read.csv(path)
+{res <- read.csv(path)
 means={};
 stdevs={};
 skewnesses={};
@@ -24,5 +24,6 @@ while (item < 160){
   item = item + 2;
 };
 dataset = data.frame(stat=c("Civil Rights","Economy","Political Freedom","Wealth Gaps","Death Rate","Compassion","Eco-Friendliness","Social Conservatism","Nudity","Industry: Automobile Manufacturing","Industry: Cheese Exports","Industry: Basket Weaving","Industry: Information Technology","Industry: Pizza Delivery","Industry: Trout Fishing","Industry: Arms Manufacturing","Sector: Agriculture","Industry: Beverage Sales","Industry: Timber Woodchipping","Industry: Mining","Industry: Insurance","Industry: Furniture Restoration","Industry: Retail","Industry: Book Publishing","Industry: Gambling","Sector: Manufacturing","Government Size","Welfare","Public Healthcare","Law Enforcement","Business Subsidization","Religiousness","Income Equality","Niceness","Rudeness","Intelligence","Ignorance","Political Apathy","Health","Cheerfulness","Weather","Compliance","Safety","Lifespan","Ideological Radicality","Defense Forces","Pacifism","Economic Freedom","Taxation","Freedom From Taxation","Corruption","Integrity","Authoritarianism","Youth Rebelliousness","Culture","Employment","Public Transport","Tourism","Weaponization","Recreational Drug Use","Obesity","Secularism","Environmental Beauty","Charmlessness","Averageness","Human Development Index","Primitiveness","Scientific Advancement","Inclusiveness","Average Income","Average Income of Poor","Average Income of Rich","Public Education","Crime","Foreign Aid","Black Market","Average Disposable Income","Patriotism","Food Quality"),mean=means,stdev=stdevs,skewness=skewnesses,max=maxima,min=minima,linepval=linepvals,lineslope=lineslopes,incpt=incpts);
+}
 readline(prompt="Enter output path: ") -> path2;
 write.csv(dataset, path2, row.names = FALSE)
