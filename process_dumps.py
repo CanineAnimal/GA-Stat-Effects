@@ -9,7 +9,7 @@ fname = input('Enter file name (exclude extension): ')
 user_name = input('Enter your nation name: ')
 
 # Get resolution passage date
-timestamp = eval(ExtraTerrestrial.fromstring(requests.get('https://www.nationstates.net/cgi-bin/api.cgi?wa=1&id=' + resolution + '&q=resolution', headers={'User-Agent':'Resolution stat effect gathering script created by the Ice States and used by ' + user_name}).content).findall('RESOLUTION/IMPLEMENTED')[0].text)
+timestamp = int(ExtraTerrestrial.fromstring(requests.get('https://www.nationstates.net/cgi-bin/api.cgi?wa=1&id=' + resolution + '&q=resolution', headers={'User-Agent':'Resolution stat effect gathering script created by the Ice States and used by ' + user_name}).content).findall('RESOLUTION/IMPLEMENTED')[0].text)
 time.sleep(6.5)
 
 # Get data collected from dump
