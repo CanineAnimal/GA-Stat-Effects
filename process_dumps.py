@@ -36,7 +36,7 @@ text = '\n'
 for nation in nats:
 	response = requests.get('https://www.nationstates.net/cgi-bin/api.cgi?nation=' + nation + ';q=answered+happenings+census;scale=0+1+2+4+5+6+7+8+9+10+11+12+13+14+15+16+17+18+19+20+21+22+23+24+25+26+27+28+29+30+31+32+33+34+35+36+37+38+39+40+41+42+43+44+45+46+47+48+49+50+51+52+53+54+55+56+57+58+59+60+61+62+63+64+67+68+69+70+71+72+73+74+75+77+78+79+85+87+88;mode=history;from=' + str(timestamp - 172800) + '&to=' + str(timestamp), headers={'User-Agent':'WA stat effects analysis script created by the Ice States and used by ' + user_name})
 	if response.status_code == 404 or len(nation) < 1:
-		print ('Nation ' + nation + ' does not exist; stats unreachable.')
+		print ('Nation ' + nation + ' has ceased to exist; stats unreachable.')
 	else:
 		try:
 			text += nation
@@ -51,9 +51,12 @@ for nation in nats:
 				print('Checking issues answered by ' + nation + '...')
 				issues_found = 0;
 				for answer in stats.findall('HAPPENINGS/EVENT'):
-					if answer.find('TEXT').text.find('Following new legislation in ') == 0 and int(answer.find('TIMESTAMP').text) >= timestamp:
-						issues_found += 1
-						print(str(issues_found) + ' of ' + stats.find('ISSUES_ANSWERED').text + ' found')
+					if answer.find('TEXT').text.find('Following new legislation in ') == 0:
+						if int(answer.find('TIMESTAMP').text) >= timestamp:
+							issues_found += 1
+							print(str(issues_found) + ' of ' + stats.find('ISSUES_ANSWERED').text + ' found')
+						else:
+							print('Issue ' + str(issues_found) + ' of ' + stats.find('ISSUES_ANSWERED').text + ' discarded')
 
 				
 				if issues_found == int(stats.find('ISSUES_ANSWERED').text):
