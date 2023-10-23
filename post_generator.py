@@ -1,7 +1,8 @@
 import time
 
 # Get R-generated data of stat effects
-path = input("Enter path to stat effect CSV file: ")
+category = input("Enter category/AoE/strength: ")
+path = 'output/' + category.lower().replace(' ', '_').replace('_-_', '_') + '.csv'
 f = open(path, "r")
 data = f.read()
 f.close()
@@ -13,7 +14,7 @@ if data[len(data) - 1] == ",":
 data = data.split(",")
 
 # Add category title
-text = "[size=150]" + input("Enter category/AoE/strength: ") + "[/size]\n\n[spoiler=Data]"
+text = "[size=150]" + category + "[/size]\n\n[spoiler=Data]"
 
 # Loop through each stat
 item = 9
