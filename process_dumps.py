@@ -91,6 +91,10 @@ for nation in nats:
 
 # Save data
 print ('Saving data')
-f = open('stats/' + fname + '.csv', 'a')
-f.write(text)
-f.close()
+try:
+	f = open('stats/' + fname + '.csv', 'a')
+	f.write(text)
+	f.close()
+except:
+	print('-----------------\n\n' + text) # Print data if it cannot be saved
+	time.sleep(30) # Give time to copy if we aren't using a terminal for whatever reason
