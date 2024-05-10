@@ -44,11 +44,10 @@ while dump_needed:
 		break
 	except:
 		print('Failed to fetch dump')
-		raise
 		tries += 1
 		if tries == 3:
-			# Switch to previous dump after three consecutive failures
-			timestamp -= 86400
+			# Switch to next dump after three consecutive failures
+			timestamp += 86400
 			ddate_raw = [datetime.datetime.utcfromtimestamp(timestamp).year, datetime.datetime.utcfromtimestamp(timestamp).month, datetime.datetime.utcfromtimestamp(timestamp).day]
 		if tries == 5:
 			# After five consecutive failures stop trying
