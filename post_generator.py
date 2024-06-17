@@ -25,9 +25,12 @@ while item < len(data):
 		# Assume no data exists if both max and min are zero
 		pass
 	else:
-		if eval(data[item + 1]) > 30 and eval(data[item + 5]) >= eval(data[item + 1]) * -0.05 or eval(data[item + 1]) < -30 and eval(data[item + 4]) <= eval(data[item + 1]) * -0.05:
-			# Highlight stat name if correlation is exceptionally strong
+		if eval(data[item + 1]) > 25 and eval(data[item + 5]) >= eval(data[item + 1]) * -0.05:
+			# Highlight in green if increase is exceptionally strong 
 			text += "[color=green][b]" + data[item] + "[/b][/color]\n"
+		elif eval(data[item + 1]) < -25 and eval(data[item + 4]) <= eval(data[item + 1]) * -0.05:
+			# Highlight in red if decrease is exceptionally strong
+ 			text += "[color=red][b]" + data[item] + "[/b][/color]\n"
 		else:
 			text += "[b]" + data[item] + "[/b]\n"
 		text += "[list][*]Mean: " + data[item + 1] + "[*]Standard Deviation: " + data[item + 2] + "[*]Skewness: " + data[item + 3] + "[*]Maximum: " + data[item + 4] + "[*]Minimum: " + data[item + 5] + "[/list]\n"
