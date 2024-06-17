@@ -21,11 +21,21 @@ f.close()
 if not os.path.exists('./stats'):
 	os.makedirs('./stats')
 
+# Fix the various strengths/AoEs the NS API returns as 0
+if res_xml.findall('RESOLUTION/OPTION')[0].text == '0':
+	if res_xml.findall('RESOLUTION/CATEGORY')[0].text == 'Regulation':
+		res_xml.findall('RESOLUTION/OPTION')[0].text = 'Consumer Protection'
+	elif res_xml.findall('RESOLUTION/CATEGORY')[0].text == 'Health':
+		res_xml.findall('RESOLUTION/OPTION')[0].text = 'Healthcare'
+	elif res_xml.findall('RESOLUTION/CATEGORY')[0].text == 'Environmental':
+		res_xml.findall('RESOLUTION/OPTION')[0].text = 'Automotive'
+	elif res_xml.findall('RESOLUTION/CATEGORY')[0].text == 'Education and Creativity':
+		res_xml.findall('RESOLUTION/OPTION')[0].text = 'Artistic'
+	else:
+		res_xml.findall('RESOLUTION/OPTION')[0].text = 'Mild'
+
 # Initiate stats CSV file
 print('Initiating data file')
-if res_xml.findall('RESOLUTION/OPTION')[0].text == '0':
-	res_xml.findall('RESOLUTION/OPTION')[0].text = 'Mild' # Since for some reason NS notes "Mild" strength as "0" in the API
-	res_xml.findall('RESOLUTION/OPTION')[0].text.replace(' - ', ' ')
 fname = res_xml.findall('RESOLUTION/CATEGORY')[0].text.lower().replace(' ', '_') + '_' + res_xml.findall('RESOLUTION/OPTION')[0].text.lower().replace(' ', '_').replace('_-_', '_')
 if not os.path.exists('stats/' + fname + '.csv'):
 	f = open('stats/' + fname + '.csv', 'w')
@@ -97,4 +107,3 @@ try:
 	f.close()
 except:
 	print('-----------------\n\n' + text) # Print data if it cannot be saved
-	time.sleep(30) # Give time to copy if we aren't using a terminal for whatever reason
