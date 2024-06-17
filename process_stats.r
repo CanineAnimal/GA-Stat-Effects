@@ -12,7 +12,7 @@ readline(prompt="Enter full path to resolution effect data: ") -> path
   incpts={};
   item = 2;
   while (item < 160){
-    try({
+    tryCatch({
       means[item/2] = mean(unlist(res[item + 1]) - unlist(res[item]))[1];
       stdevs[item/2] = sd(unlist(res[item + 1]) - unlist(res[item]))[1];
       skewnesses[item/2] = skewness(unlist(res[item + 1]) - unlist(res[item]))[1];
@@ -22,8 +22,8 @@ readline(prompt="Enter full path to resolution effect data: ") -> path
       lineslopes[item/2] = lm(unlist(res[item + 1]) - unlist(res[item])~unlist(res[item]))$coefficients[2];
       incpts[item/2] = lm(unlist(res[item + 1]) - unlist(res[item])~unlist(res[item]))$coefficients[1];
     }, error = function(e){
-      print("Error encountered on Column " + as.string(item) + "; check source data");
-      throw(e);
+      cat("Error encountered on Column", toString(item), "; check source data");
+      stop(e);
     });
     item = item + 2;
   };
