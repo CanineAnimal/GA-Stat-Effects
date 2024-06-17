@@ -42,4 +42,4 @@ while item < len(data):
 text += "[/spoiler]"
 # Print text content
 print(text)
-time.sleep(30) # Wait before ending script to give reasonable time to copy content, if not script is for some reason not run from command line
+time.sleep(30) # Wait before ending script to give reasonable time to copy content, if script is for some reason not run from command line
